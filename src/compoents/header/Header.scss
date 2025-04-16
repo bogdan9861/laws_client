@@ -1,0 +1,44 @@
+.header {
+  background-color: #1e5799;
+  position: relative;
+  // .header__inner
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+  }
+
+  // .header__title
+
+  &__title {
+    font-size: 23px;
+    color: #fff;
+  }
+
+  &__profile {
+    display: flex;
+    align-items: center;
+    gap: 0 10px;
+  }
+
+  &__name {
+    color: #ebeaea;
+    font-weight: 600;
+  }
+
+  &__exit {
+    position: absolute;
+    top: 5px;
+    right: 20px;
+
+    transform: translateY(50%);
+
+    background-color: transparent;
+
+    border: none;
+  }
+}
+.container {
+}

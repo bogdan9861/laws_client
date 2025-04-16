@@ -1,0 +1,17 @@
+.filters {
+  margin-bottom: 30px;
+  width: 100%;
+  background-color: #e3eaf1;
+  padding: 10px;
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    gap: 0 20px;
+  }
+
+  &__input {
+    padding: 6px;
+    max-width: 370px;
+  }
+}
