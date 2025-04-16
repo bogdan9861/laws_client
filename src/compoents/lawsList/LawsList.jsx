@@ -62,7 +62,7 @@ const LawsList = ({ type, number }) => {
         renderItem={(item) => (
           <List.Item className="list__item" key={item.title}>
             <List.Item.Meta
-              title={<h4 style={{ fontSize: 17 }}>{item.title}</h4>}
+              title={<p style={{ fontSize: 17 }}>{item.title}</p>}
               description={item.description}
               children={<span>123</span>}
             />
