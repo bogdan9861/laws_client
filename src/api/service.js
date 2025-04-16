@@ -3,7 +3,6 @@ import api from "./api";
 
 const service = () => {
   const BASE_API = "http://publication.pravo.gov.ru/api";
-  const BASE_URL = "http://localhost:8080/api";
 
   const getDocuments = async ({ type, number }) => {
     return await api.get(
@@ -20,18 +19,18 @@ const service = () => {
   };
 
   const getCurrentUser = async () => {
-    return await api.get(`${BASE_URL}/users/`);
+    return await api.get(`/users/`);
   };
 
   const login = async ({ phone, password }) => {
-    return await api.post(`${BASE_URL}/users/login`, {
+    return await api.post(`/users/login`, {
       phone,
       password,
     });
   };
 
   const register = async ({ name, phone, password }) => {
-    return await api.post(`${BASE_URL}/users/register`, {
+    return await api.post(`/users/register`, {
       name,
       phone,
       password,
@@ -45,7 +44,7 @@ const service = () => {
     answers,
     description,
   }) => {
-    return await api.post(`${BASE_URL}/questions`, {
+    return await api.post(`/questions`, {
       title,
       text: question,
       document_number: number,
@@ -55,15 +54,15 @@ const service = () => {
   };
 
   const getQuestions = async () => {
-    return await api.get(`${BASE_URL}/questions`);
+    return await api.get(`/questions`);
   };
 
   const removeQuestion = async (id) => {
-    return await api.delete(`${BASE_URL}/questions/${id}`);
+    return await api.delete(`/questions/${id}`);
   };
 
   const getQuestionById = async (id) => {
-    return await api.get(`${BASE_URL}/questions/${id}`);
+    return await api.get(`/questions/${id}`);
   };
 
   return {
