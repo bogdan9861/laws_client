@@ -2,10 +2,10 @@ import axios from "axios";
 import api from "./api";
 
 const service = () => {
-  const BASE_API = "";
+  const BASE_API = "http://publication.pravo.gov.ru/api";
 
   const getDocuments = async ({ type, number }) => {
-    return await api.get(
+    return await axios.get(
       `${BASE_API}/Documents?DocumentTypes=${
         type || "fd5a8766-f6fd-4ac2-8fd9-66f414d314ac"
       }&NumberSearchType=0&Number=${number}`
@@ -13,7 +13,7 @@ const service = () => {
   };
 
   const getDocumentTypes = async () => {
-    return await api.get(
+    return await axios.get(
       `${BASE_API}/DocumentTypes?SignatoryAuthorityId=8005d8c9-4b6d-48d3-861a-2a37e69fccb3`
     );
   };
