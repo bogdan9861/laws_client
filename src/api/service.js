@@ -2,7 +2,7 @@ import axios from "axios";
 import api from "./api";
 
 const service = () => {
-  const BASE_API = "http://publication.pravo.gov.ru/api";
+  const BASE_API = "";
 
   const getDocuments = async ({ type, number }) => {
     return await api.get(
