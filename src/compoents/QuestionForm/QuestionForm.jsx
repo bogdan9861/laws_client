@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Card, Divider, Input as AntdInput } from "antd";
 
 import Input from "../input/Input";
 import service from "../../api/service";
 import "../../pages/Profile/Profile.scss";
+import { getEnglishLetter } from "../../utils/getEnglishLetter";
 
 const QuestionForm = ({ questions, setQuestions }) => {
   const [title, setTitle] = useState("");
@@ -12,6 +13,8 @@ const QuestionForm = ({ questions, setQuestions }) => {
   const [description, setDescription] = useState("");
   const [answer, setAnswer] = useState("");
   const [answers, setAnswers] = useState([]);
+  const [isValidSelected, setIsValidSelected] = useState(false);
+  const [disabled, setDisabled] = useState(true);
 
   const { createQuestion } = service();
 
@@ -28,8 +31,12 @@ const QuestionForm = ({ questions, setQuestions }) => {
     setAnswers(newArr);
   };
 
-  const setValidAnswer = (i) => {
+  const setValidAnswer = ({ i, answer }) => {
     let arr = answers;
+
+    setDescription(
+      `Правильный ответ: ${getEnglishLetter(i).toUpperCase()}) ` + answer.text
+    );
 
     arr.forEach((el) => {
       el.isValid = false;
@@ -38,6 +45,7 @@ const QuestionForm = ({ questions, setQuestions }) => {
     arr[i].isValid = !arr[i].isValid;
 
     setAnswers([...arr]);
+    setIsValidSelected(true);
   };
 
   const onCreateQuestion = () => {
@@ -50,12 +58,18 @@ const QuestionForm = ({ questions, setQuestions }) => {
         setAnswers([]);
 
         setQuestions([
-          { title, text: question, document_number: number },
+          { id: res.data.id, title, text: question, document_number: number },
           ...questions,
         ]);
       }
     );
   };
+
+  useEffect(() => {
+    setDisabled(
+      !title || !question || !number || answers.length < 2 || !isValidSelected
+    );
+  }, [title, question, number, description, answer, answers]);
 
   return (
     <Card className="profile__window" title={"Создать тест"}>
@@ -102,6 +116,7 @@ const QuestionForm = ({ questions, setQuestions }) => {
         Номер документа
       </span>
       <Input
+        type="number"
         placeholder="Введите номер"
         onChange={(e) => setNumber(e.target.value)}
         value={number}
@@ -144,7 +159,7 @@ const QuestionForm = ({ questions, setQuestions }) => {
           <li className="answer__item-wrapper">
             <button
               className={`answer__item ${answer.isValid ? "correct" : ""}`}
-              onClick={() => setValidAnswer(i)}
+              onClick={() => setValidAnswer({ answer, i })}
             >
               <span>{answer.text}</span>
             </button>
@@ -158,7 +173,12 @@ const QuestionForm = ({ questions, setQuestions }) => {
           </li>
         ))}
       </ul>
-      <Button type="primary" onClick={onCreateQuestion}>
+      <Button
+        style={{ width: 150, height: 40 }}
+        type="primary"
+        onClick={onCreateQuestion}
+        disabled={disabled}
+      >
         Создать
       </Button>
     </Card>

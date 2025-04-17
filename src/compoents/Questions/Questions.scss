@@ -1,5 +1,15 @@
 .question {
-  // .question__title
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 30px;
+  }
+
+  &__title {
+    margin-bottom: 30px;
+  }
 
   &__list {
     display: flex;

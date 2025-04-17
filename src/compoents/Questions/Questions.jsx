@@ -3,17 +3,22 @@ import { Link, useNavigate } from "react-router-dom";
 
 import service from "../../api/service";
 import "./Questions.scss";
+import { Input } from "antd";
 
 const Questions = ({ user, questions, setQuestions }) => {
   const { getQuestions, removeQuestion } = service();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    getQuestions().then((res) => {
+  const getData = (number) => {
+    getQuestions(number || "").then((res) => {
       let newArr = res.data;
       newArr.reverse();
       setQuestions(newArr);
     });
+  };
+
+  useEffect(() => {
+    getData();
   }, []);
 
   const onDelete = (id) => {
@@ -27,10 +32,22 @@ const Questions = ({ user, questions, setQuestions }) => {
 
   return (
     <>
-      <h1 className="question__title">Список вопросов</h1>
+      <div className="question__header">
+        <h1 className="question__title">Список вопросов</h1>
+        <Input.Search
+          onSearch={(number) => getData(number)}
+          style={{ width: 400 }}
+          placeholder="Поиск по номеру документа"
+        />
+      </div>
       <ul className="question__list">
         {questions.map((question) => (
-          <li className="question__item" key={question.id}>
+          <li
+            className="question__item"
+            key={question.id}
+            style={{ cursor: "pointer" }}
+            onClick={() => navigate(`/question/${question.id}`)}
+          >
             {user?.role === "ADMIN" && (
               <button
                 className="question__item-delete"
@@ -47,7 +64,7 @@ const Questions = ({ user, questions, setQuestions }) => {
             <span className="question__item-title">{question.title}</span>
             <span className="question__item-text">{question.text}</span>
             <span className="question__item-number">
-              №{question.document_number}
+              №{`${question.document_number}`.replace("№", "")}
             </span>
             <Link to={`/question/${question.id}`}>Пройти</Link>
           </li>

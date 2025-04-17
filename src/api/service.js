@@ -4,20 +4,6 @@ import api from "./api";
 const service = () => {
   const BASE_API = "http://publication.pravo.gov.ru/api";
 
-  const getDocuments = async ({ type, number }) => {
-    return await axios.get(
-      `${BASE_API}/Documents?DocumentTypes=${
-        type || "fd5a8766-f6fd-4ac2-8fd9-66f414d314ac"
-      }&NumberSearchType=0&Number=${number}`
-    );
-  };
-
-  const getDocumentTypes = async () => {
-    return await axios.get(
-      `${BASE_API}/DocumentTypes?SignatoryAuthorityId=8005d8c9-4b6d-48d3-861a-2a37e69fccb3`
-    );
-  };
-
   const getCurrentUser = async () => {
     return await api.get(`/users/`);
   };
@@ -53,8 +39,8 @@ const service = () => {
     });
   };
 
-  const getQuestions = async () => {
-    return await api.get(`/questions`);
+  const getQuestions = async (number) => {
+    return await api.get(`/questions?number=${number || ""}`);
   };
 
   const removeQuestion = async (id) => {
@@ -66,8 +52,6 @@ const service = () => {
   };
 
   return {
-    getDocuments,
-    getDocumentTypes,
     getCurrentUser,
     register,
     login,

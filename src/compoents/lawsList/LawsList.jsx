@@ -1,33 +1,28 @@
 import React, { useEffect, useState } from "react";
-import service from "../../api/service";
+import { useNavigate } from "react-router-dom";
 import { List, Spin } from "antd";
-import { useDebounce } from "use-debounce";
 
+import service from "../../api/service";
 import "./LawsList.scss";
 
 const LawsList = ({ type, number }) => {
-  const [documents, setDocuments] = useState([]);
+  const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const { getDocuments } = service();
+  const { getQuestions } = service();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
-    getDocuments({ type, number })
+    getQuestions(number)
       .then((res) => {
-        setDocuments(res.data.items);
+        setQuestions(res.data);
         setLoading(false);
       })
       .catch((e) => {
         setLoading(false);
       });
-  }, [type, number]);
-
-  const data = documents.map((el, i) => ({
-    title: el.title.replace("<br/>", "\n").replace("<br />", "\n"),
-    description: `№${el.number} от ${el.viewDate}`,
-    content: el.name,
-  }));
+  }, [number]);
 
   if (loading) {
     return (
@@ -56,17 +51,25 @@ const LawsList = ({ type, number }) => {
           onChange: (page) => {
             console.log(page);
           },
-          pageSize: 10,
+          pageSize: 5,
         }}
-        dataSource={data}
-        renderItem={(item) => (
-          <List.Item className="list__item" key={item.title}>
-            <List.Item.Meta
-              title={<p style={{ fontSize: 17 }}>{item.title}</p>}
-              description={item.description}
-              children={<span>123</span>}
-            />
-            {item.content}
+        dataSource={questions}
+        renderItem={(question) => (
+          <List.Item
+            className="list__item"
+            key={question.id}
+            style={{ cursor: "pointer" }}
+            onClick={() => navigate(`/question/${question.id}`)}
+          >
+            <h1 className="list__item-title">{question.title}</h1>
+            <p className="list__item-text">{question.text}</p>
+
+            <span className="list__item-number">
+              №{`${question.document_number}`.replace("№", "")}
+            </span>
+            <span className="list__item-date">
+              {question.date.split("T").shift()}
+            </span>
           </List.Item>
         )}
       />

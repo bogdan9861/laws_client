@@ -5,16 +5,6 @@ import "./Filters.scss";
 import service from "../../api/service";
 
 const Filters = ({ setNumber, setType }) => {
-  const [types, setTypes] = useState([]);
-
-  const { getDocumentTypes } = service();
-
-  useEffect(() => {
-    getDocumentTypes().then((res) => {
-      setTypes(res.data);
-    });
-  }, []);
-
   return (
     <div className="filters">
       <div className="container">
@@ -24,7 +14,7 @@ const Filters = ({ setNumber, setType }) => {
             placeholder="Поиск по номеру документа"
             onChange={(e) => setNumber(e.target.value)}
           />
-          <Select
+          {/* <Select
             defaultValue={{
               label: "Постановление",
               value: "fd5a8766-f6fd-4ac2-8fd9-66f414d314ac",
@@ -34,7 +24,7 @@ const Filters = ({ setNumber, setType }) => {
             {types.map((el) => (
               <Select.Option value={el.id}>{el.name}</Select.Option>
             ))}
-          </Select>
+          </Select> */}
         </div>
       </div>
     </div>

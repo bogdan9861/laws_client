@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import service from "../../api/service";
 import { Card, Divider, Typography } from "antd";
 
@@ -8,6 +8,7 @@ import "./Question.scss";
 const Question = () => {
   const { getQuestionById } = service();
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [isAnswerSelected, setIsAnswerSelected] = useState(false);
   const [question, setQuestion] = useState(null);
@@ -52,8 +53,15 @@ const Question = () => {
         <Divider />
         {isAnswerSelected && (
           <>
-            <Typography.Text>{question?.description}</Typography.Text>
-            <Link to={"/"}>К списку документов</Link>
+            <Typography.Text style={{ marginBottom: 10 }}>
+              {question?.description}
+            </Typography.Text>
+            <button
+              style={{ color: "rgb(30 81 245)", fontWeight: 500 }}
+              onClick={() => navigate(-1)}
+            >
+              К списку вопросов
+            </button>
           </>
         )}
       </Card>
