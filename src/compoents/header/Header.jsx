@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-
-import "./Header.scss";
-import service from "../../api/service";
 import { Link, useNavigate } from "react-router-dom";
+
+import service from "../../api/service";
+
+import logo from "../../assets/logo.png";
+import "./Header.scss";
 
 const Header = () => {
   const [user, setUser] = useState(null);
@@ -31,9 +33,9 @@ const Header = () => {
     <header className="header">
       <div className="container">
         <div className="header__inner">
-          <img src="http://publication.pravo.gov.ru/images/logo.png" alt="" />
+          <img src={logo} alt="" />
           <h1 className="header__title">Официальные правовые акты</h1>
-          <Link className="header__profile" to={'/profile'}>
+          <Link className="header__profile" to={"/profile"}>
             {user?.role === "ADMIN" ? (
               <img
                 width={30}
