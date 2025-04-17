@@ -9,6 +9,8 @@ import Questions from "../../compoents/Questions/Questions";
 import { Link, useNavigate } from "react-router-dom";
 import QuestionForm from "../../compoents/QuestionForm/QuestionForm";
 
+import logo from "../../assets/logo.png";
+
 const Profile = () => {
   const [user, setUser] = useState(null);
   const [questions, setQuestions] = useState([]);
@@ -18,6 +20,9 @@ const Profile = () => {
 
   useEffect(() => {
     getCurrentUser().then((res) => {
+      if (res.data.data.role !== "ADMIN") {
+        navigate(-1);
+      }
       setUser(res.data.data);
     });
   }, []);
@@ -28,10 +33,7 @@ const Profile = () => {
         <div className="container">
           <div className="profile__header-inner">
             <Link to={"/"}>
-              <img
-                src="http://publication.pravo.gov.ru/images/logo.png"
-                alt=""
-              />
+              <img src={logo} alt="" />
             </Link>
 
             <div className="profile__header-inner">{user?.name}</div>

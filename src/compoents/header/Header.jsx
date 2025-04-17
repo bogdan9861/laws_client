@@ -35,23 +35,25 @@ const Header = () => {
         <div className="header__inner">
           <img src={logo} alt="" />
           <h1 className="header__title">Официальные правовые акты</h1>
-          <Link className="header__profile" to={"/profile"}>
-            {user?.role === "ADMIN" ? (
+          {user?.role === "ADMIN" ? (
+            <Link className="header__profile" to={"/profile"}>
               <img
                 width={30}
                 src="https://img.icons8.com/?size=100&id=YIZ59MTJsuUz&format=png&color=ffffff"
                 alt=""
               />
-            ) : (
+              <span className="header__name">{user?.name}</span>
+            </Link>
+          ) : (
+            <div className="header__profile">
               <img
                 width={30}
                 src="https://img.icons8.com/?size=100&id=84020&format=png&color=ffffff"
                 alt=""
               />
-            )}
-
-            <span className="header__name">{user?.name}</span>
-          </Link>
+              <span className="header__name">{user?.name}</span>
+            </div>
+          )}
 
           <button className="header__exit" onClick={exit}>
             <img
