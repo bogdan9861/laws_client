@@ -14,6 +14,7 @@ import logo from "../../assets/logo.png";
 const Profile = () => {
   const [user, setUser] = useState(null);
   const [questions, setQuestions] = useState([]);
+  const [formOpen, setFormOpen] = useState(false);
 
   const { getCurrentUser } = service();
   const navigate = useNavigate();
@@ -42,10 +43,26 @@ const Profile = () => {
       </div>
       <div className="profile__body">
         <div className="container">
+          <Button
+            onClick={() => setFormOpen(true)}
+            type="dashed"
+            iconPosition="end"
+            icon={
+              <img
+                style={{ transform: "translateY(3px)" }}
+                width={17}
+                src="https://img.icons8.com/?size=100&id=114100&format=png&color=3965E7"
+              />
+            }
+          >
+            Создать новый тест
+          </Button>
           <div className="profile__body-wrapper">
             {user?.role === "ADMIN" && (
               <>
                 <QuestionForm
+                  open={formOpen}
+                  setOpen={setFormOpen}
                   questions={questions}
                   setQuestions={setQuestions}
                 />

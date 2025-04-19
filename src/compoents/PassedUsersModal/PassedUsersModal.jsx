@@ -28,6 +28,7 @@ const PassedUsersModal = ({ id, open, setOpen }) => {
     <Modal
       title="Список пользователей, прошедших тест"
       open={open}
+      footer={false}
       onCancel={() => setOpen(false)}
     >
       <div className="passed">

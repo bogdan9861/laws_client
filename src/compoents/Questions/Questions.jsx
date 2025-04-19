@@ -51,12 +51,25 @@ const Questions = ({ user, questions, setQuestions }) => {
       </div>
       <ul className="question__list">
         {questions.map((question) => (
-          <li
-            className="question__item"
-            key={question.id}
-            style={{ cursor: "pointer" }}
-            onClick={() => onQuestionClick(question.id)}
-          >
+          <div className="question__item-wrapper">
+            <li
+              className="question__item"
+              key={question.id}
+              style={{ cursor: "pointer" }}
+              onClick={() => onQuestionClick(question.id)}
+            >
+              <Tooltip title={question.title}>
+                <span className="question__item-title">
+                  {reduceString(question.title, 200)}
+                </span>
+              </Tooltip>
+              <span className="question__item-text">{question.text}</span>
+              <span className="question__item-number">
+                №{`${question.document_number}`.replace("№", "")}
+              </span>
+              <Link to={`/question/${question.id}`}>Пройти</Link>
+            </li>
+
             {user?.role === "ADMIN" && (
               <button
                 className="question__item-delete"
@@ -69,18 +82,7 @@ const Questions = ({ user, questions, setQuestions }) => {
                 />
               </button>
             )}
-
-            <Tooltip title={question.title}>
-              <span className="question__item-title">
-                {reduceString(question.title, 200)}
-              </span>
-            </Tooltip>
-            <span className="question__item-text">{question.text}</span>
-            <span className="question__item-number">
-              №{`${question.document_number}`.replace("№", "")}
-            </span>
-            <Link to={`/question/${question.id}`}>Пройти</Link>
-          </li>
+          </div>
         ))}
       </ul>
       {selectedId && (
