@@ -12,7 +12,7 @@ const Main = () => {
 
   return (
     <div>
-      <Header />
+      <Header title="Официальные правовые акты" />
       <Filters setNumber={setNumber} setType={setType} />
       <LawsList number={number} type={type} />
     </div>

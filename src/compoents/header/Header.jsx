@@ -6,7 +6,7 @@ import service from "../../api/service";
 import logo from "../../assets/logo.png";
 import "./Header.scss";
 
-const Header = () => {
+const Header = ({ title }) => {
   const [user, setUser] = useState(null);
   const { getCurrentUser } = service();
 
@@ -33,8 +33,11 @@ const Header = () => {
     <header className="header">
       <div className="container">
         <div className="header__inner">
-          <img src={logo} alt="" />
-          <h1 className="header__title">Официальные правовые акты</h1>
+          <Link to={"/"}>
+            <img src={logo} alt="" />
+          </Link>
+
+          <h1 className="header__title">{title}</h1>
           {user?.role === "ADMIN" ? (
             <Link className="header__profile" to={"/profile"}>
               <img
