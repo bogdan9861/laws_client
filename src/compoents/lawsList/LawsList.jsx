@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { List, Spin } from "antd";
+import { List, Spin, Tooltip, Progress, Flex } from "antd";
 
 import service from "../../api/service";
 import "./LawsList.scss";
@@ -23,6 +23,10 @@ const LawsList = ({ type, number }) => {
         setLoading(false);
       });
   }, [number]);
+
+  useEffect(() => {
+    console.log(questions);
+  }, [questions]);
 
   if (loading) {
     return (
@@ -67,9 +71,26 @@ const LawsList = ({ type, number }) => {
             <span className="list__item-number">
               №{`${question.document_number}`.replace("№", "")}
             </span>
+
             <span className="list__item-date">
-              {question.date.split("T").shift()}
+              {question.date.split("T").shift().replaceAll("-", " ")}
             </span>
+
+            <Progress
+              style={{
+                position: "absolute",
+                bottom: 20,
+                right: 20,
+              }}
+              strokeColor={"rgb(255 0 0)"}
+              percent={question.passedPercent + question.failedPercent}
+              success={{
+                percent: question.passedPercent,
+                strokeColor: "rgb(84 255 0)",
+              }}
+              type="circle"
+              size="small"
+            />
           </List.Item>
         )}
       />

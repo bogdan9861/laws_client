@@ -3,11 +3,15 @@ import { Link, useNavigate } from "react-router-dom";
 
 import service from "../../api/service";
 import "./Questions.scss";
-import { Input } from "antd";
+import { Input, Tooltip } from "antd";
+import PassedUsersModal from "../PassedUsersModal/PassedUsersModal";
+import { reduceString } from "../../utils/reduceString";
 
 const Questions = ({ user, questions, setQuestions }) => {
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+
   const { getQuestions, removeQuestion } = service();
-  const navigate = useNavigate();
 
   const getData = (number) => {
     getQuestions(number || "").then((res) => {
@@ -30,6 +34,11 @@ const Questions = ({ user, questions, setQuestions }) => {
       .catch((e) => console.log(e));
   };
 
+  const onQuestionClick = (id) => {
+    setOpenModal(true);
+    setSelectedId(id);
+  };
+
   return (
     <>
       <div className="question__header">
@@ -46,7 +55,7 @@ const Questions = ({ user, questions, setQuestions }) => {
             className="question__item"
             key={question.id}
             style={{ cursor: "pointer" }}
-            onClick={() => navigate(`/question/${question.id}`)}
+            onClick={() => onQuestionClick(question.id)}
           >
             {user?.role === "ADMIN" && (
               <button
@@ -61,7 +70,11 @@ const Questions = ({ user, questions, setQuestions }) => {
               </button>
             )}
 
-            <span className="question__item-title">{question.title}</span>
+            <Tooltip title={question.title}>
+              <span className="question__item-title">
+                {reduceString(question.title, 200)}
+              </span>
+            </Tooltip>
             <span className="question__item-text">{question.text}</span>
             <span className="question__item-number">
               №{`${question.document_number}`.replace("№", "")}
@@ -70,6 +83,13 @@ const Questions = ({ user, questions, setQuestions }) => {
           </li>
         ))}
       </ul>
+      {selectedId && (
+        <PassedUsersModal
+          id={selectedId}
+          open={openModal}
+          setOpen={setOpenModal}
+        />
+      )}
     </>
   );
 };

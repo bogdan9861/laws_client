@@ -51,6 +51,14 @@ const service = () => {
     return await api.get(`/questions/${id}`);
   };
 
+  const addUserToQuestion = async ({ id, isValid }) => {
+    return await api.post(`/answers`, { questionId: id, isValid });
+  };
+
+  const getPassedUsers = async (id) => {
+    return await api.get(`/answers/${id}`);
+  };
+
   return {
     getCurrentUser,
     register,
@@ -59,6 +67,8 @@ const service = () => {
     getQuestions,
     getQuestionById,
     removeQuestion,
+    addUserToQuestion,
+    getPassedUsers
   };
 };
 

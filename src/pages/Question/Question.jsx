@@ -4,9 +4,10 @@ import service from "../../api/service";
 import { Card, Divider, Typography } from "antd";
 
 import "./Question.scss";
+import { reduceString } from "../../utils/reduceString";
 
 const Question = () => {
-  const { getQuestionById } = service();
+  const { getQuestionById, addUserToQuestion } = service();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -29,6 +30,10 @@ const Question = () => {
     if (!answer.isValid) {
       e.target.classList.add("error");
     }
+
+    addUserToQuestion({ id, isValid: answer.isValid }).catch((e) =>
+      console.log(e)
+    );
   };
 
   return (
