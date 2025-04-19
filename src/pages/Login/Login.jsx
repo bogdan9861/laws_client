@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Card, Divider, Form, Typography } from "antd";
+import { Card, Divider, Form, Spin, Typography } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 
 import Input from "../../compoents/input/Input";
@@ -13,15 +13,18 @@ const Login = () => {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const { login } = service();
   const navigate = useNavigate();
 
   const onLogin = () => {
     setError("");
+    setLoading(true);
 
     login({ phone, password })
       .then((res) => {
+        setLoading(false);
         localStorage.setItem("laws-token", res.data.token);
         navigate("/");
       })
@@ -31,6 +34,8 @@ const Login = () => {
         } else {
           console.log(e);
         }
+
+        setLoading(false);
       });
   };
 
@@ -80,10 +85,11 @@ const Login = () => {
           </div>
 
           <Button
-            title={"Войти"}
+            title={loading ? <Spin /> : "Войти"}
+            disabled={loading}
             style={{ marginTop: "auto" }}
             onClick={onLogin}
-          />
+          ></Button>
         </Form>
       </Card>
     </div>

@@ -3,9 +3,14 @@ import { Button as AntdButton } from "antd";
 
 import "./Button.scss";
 
-const Button = ({ title, style, onClick }) => {
+const Button = ({ title, style, onClick, disabled }) => {
   return (
-    <AntdButton className="button" style={style} onClick={onClick}>
+    <AntdButton
+      className="button"
+      style={style}
+      onClick={onClick}
+      disabled={disabled}
+    >
       {title}
     </AntdButton>
   );
